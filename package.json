@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jakewmcmillan/employee-database/issues"
   },
-  "homepage": "https://github.com/jakewmcmillan/employee-database#readme"
+  "homepage": "https://github.com/jakewmcmillan/employee-database#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
 }

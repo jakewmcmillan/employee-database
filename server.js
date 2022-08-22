@@ -20,7 +20,7 @@ const db = mysql.createConnection(
     console.log('Connected to the employee_db database.')
 );
 
-function menu () {
+function start () {
     inquirer.prompt ([
         {
             name: 'menu',
@@ -42,22 +42,22 @@ function menu () {
         const { choices } = answers;
 
         if (choices === 'View All Employees') {
-            showEmployee();
+            viewEmployee();
         }
         if (choices === 'Add Employees') {
             addEmployee();
         }
         if (choices === 'Update Employee Role') {
-            updateEmployeeRole();
+            updateEmployee();
         }
         if (choices === 'View All Roles') {
-            showRole();
+            viewRole();
         }
         if (choices === 'Add Role') {
             addRole();
         }
         if (choices === 'View All Departments') {
-            showDepartment();
+            viewDepartment();
         }
         if (choices === 'Add Departments') {
             addDepartment();
@@ -68,63 +68,33 @@ function menu () {
     });
 };
 
-function showDepartment() {
+function viewDepartment() {
     var query = 'SELECT * FROM department';
     connection.query(query, function(err, res) {
         if (err) throw err;
         console.log('Showing Departments:');
         console.table('Departments:', res);
-        menu();
+        start();
     })
 }
 
-function showEmployee() {
-    var query = 'SELECT * FROM employee';
-    connection.query(query, function(err, res) {
-        if (err) throw err;
-        console.log('Showing Employees:');
-        console.table('Employees:', res);
-        menu();
-    })
-};
-
-function addEmployee() {
-    var query = '';
-    connection.query(query, function(err, res) {
-        if (err) throw err;
-        console.log('Adding employee:');
-        console.table('New Employee', res);
-        menu();
-    })
-};
-
-function updateEmployeeRole() {
-    var query = '';
-    connection.query(query, function(err, res) {
-        if (err) throw err;
-        console.log('Updating Employee:');
-        console.table('Updating Employee');
-        menu();
-    })
-};
-
-function showRole() {
+function viewRole() {
     var query = 'SELECT * FROM role';
     connection.query(query, function(err, res) {
         if (err) throw err;
         console.log('Showing Role:');
         console.table('Role');
-        menu();
+        start();
     })
 };
 
-function addRole() {
-    var query = 'SELECT * FROM role';
+function viewEmployee() {
+    var query = 'SELECT * FROM employee';
     connection.query(query, function(err, res) {
         if (err) throw err;
-        console.log('Adding Role:');
-        console.table('Role');
-        menu();
+        console.log('Showing Employees:');
+        console.table('Employees:', res);
+        start();
     })
 };
 
@@ -134,6 +104,37 @@ function addDepartment() {
         if (err) throw err;
         console.log('Adding Department:');
         console.table('New Department');
+        start();
+    })
+};
+
+function addRole() {
+    var query = 'SELECT * FROM role';
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.log('Adding Role:');
+        console.table('Role');
+        start();
+    })
+};
+
+function addEmployee() {
+    var query = '';
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.log('Adding employee:');
+        console.table('New Employee', res);
+        start();
+    })
+};
+
+function updateEmployee() {
+    var query = '';
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.log('Updating Employee:');
+        console.table('Updating Employee');
+        start();
     })
 };
 

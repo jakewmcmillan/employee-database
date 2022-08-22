@@ -72,7 +72,6 @@ function viewDepartment() {
     var query = 'SELECT * FROM department';
     connection.query(query, function(err, res) {
         if (err) throw err;
-        console.log('Showing Departments:');
         console.table('Departments:', res);
         start();
     })
@@ -82,8 +81,7 @@ function viewRole() {
     var query = 'SELECT * FROM role';
     connection.query(query, function(err, res) {
         if (err) throw err;
-        console.log('Showing Role:');
-        console.table('Role');
+        console.table('Roles:');
         start();
     })
 };
@@ -92,18 +90,28 @@ function viewEmployee() {
     var query = 'SELECT * FROM employee';
     connection.query(query, function(err, res) {
         if (err) throw err;
-        console.log('Showing Employees:');
         console.table('Employees:', res);
         start();
     })
 };
 
 function addDepartment() {
+    inquirer.prompt([
+        {
+            name: 'newDepartment',
+            type: 'input',
+            message: 'What is the name of the department?'
+        }
+    ]).then(function (answer) {
+        connection.query('INSERT INTO department SET ?')
+        {
+            name: answer.newDepartment
+        }
+    });
     var query = 'SELECT * FROM department';
     connection.query(query, function(err, res) {
         if (err) throw err;
-        console.log('Adding Department:');
-        console.table('New Department');
+        console.table('Departments:', res);
         start();
     })
 };

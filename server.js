@@ -1,10 +1,8 @@
 const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-// const Connection = require('mysql2/typings/mysql/lib/Connection');
 const { quiet } = require('nodemon/lib/utils');
 const consoleTable = require('console.table');
-// const Connection = require('mysql2/typings/mysql/lib/Connection');
 
 const PORT = process.env.PORT || 3001;
 const app = express();

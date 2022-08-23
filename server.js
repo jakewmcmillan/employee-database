@@ -156,15 +156,40 @@ function addRole() {
 };
 
 function addEmployee() {
-    db.query('SELECT * FROM ', function(err, res) {
+    db.query('SELECT * FROM role', function(err, res) {
         if (err) throw err;
+        inquirer.prompt([
+            {
+                name: 'first_name',
+                type: 'input',
+                message: "What is the employee's first name?"
+            },
+            {
+                name: 'last_name',
+                type: 'input',
+                message: "What is the employee's last name?"
+            },
+            {
+                name: 'role',
+                type: 'list',
+                message: "What is the employee's role?",
+                choices: ["Accountant", "Analyst", "Financing", "Representative", "Engineer"]
+            }
+        ])
+        db.query(
+            {
+                first_name: answer.first_name,
+                last_name: answer.last_name,
+                role_id: answer.role_id,
+                manager_id: answer.manager_id,
+            }
+        )
         console.table('New Employee', res);
         start();
     })
 };
 
 function updateEmployee() {
-    var query = '';
     db.query(query, function(err, res) {
         if (err) throw err;
         console.table('Updating Employee');

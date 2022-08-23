@@ -1,8 +1,9 @@
 const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const Connection = require('mysql2/typings/mysql/lib/Connection');
+// const Connection = require('mysql2/typings/mysql/lib/Connection');
 const { quiet } = require('nodemon/lib/utils');
+const consoleTable = require('console.table');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -70,7 +71,7 @@ function start () {
 
 function viewDepartment() {
     var query = 'SELECT * FROM department';
-    connection.query(query, function(err, res) {
+    db.query(query, function(err, res) {
         if (err) throw err;
         console.table('Departments:', res);
         start();
@@ -79,7 +80,7 @@ function viewDepartment() {
 
 function viewRole() {
     var query = 'SELECT * FROM role';
-    connection.query(query, function(err, res) {
+    db.query(query, function(err, res) {
         if (err) throw err;
         console.table('Roles:');
         start();
@@ -88,7 +89,7 @@ function viewRole() {
 
 function viewEmployee() {
     var query = 'SELECT * FROM employee';
-    connection.query(query, function(err, res) {
+    db.query(query, function(err, res) {
         if (err) throw err;
         console.table('Employees:', res);
         start();
@@ -98,18 +99,18 @@ function viewEmployee() {
 function addDepartment() {
     inquirer.prompt([
         {
-            name: 'newDepartment',
+            name: 'department',
             type: 'input',
             message: 'What is the name of the department?'
         }
     ]).then(function (answer) {
-        connection.query('INSERT INTO department SET ?')
+        db.query('INSERT INTO department SET ?')
         {
-            name: answer.newDepartment
+            name: answer.department
         }
     });
     var query = 'SELECT * FROM department';
-    connection.query(query, function(err, res) {
+    db.query(query, function(err, res) {
         if (err) throw err;
         console.table('Departments:', res);
         start();
@@ -117,20 +118,40 @@ function addDepartment() {
 };
 
 function addRole() {
-    var query = 'SELECT * FROM role';
-    connection.query(query, function(err, res) {
+    db.query('SELECT * FROM role', function(err, res) {
         if (err) throw err;
-        console.log('Adding Role:');
+        inquirer.prompt([
+            {
+                name: 'role',
+                type: 'input',
+                message: 'What is the name of the role?'
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: 'What is the salary of the role?'
+            },
+            {
+                name: 'department',
+                type: 'list',
+                message: 'Which department does this role belong to?',
+                choices: function() {
+                    var department = [];
+                    for (let i = 0; i < res.length; i++) {
+                        department.push(res[i].name);
+                    }
+                    return department;
+                },
+            }
+        ])
         console.table('Role');
         start();
     })
 };
 
 function addEmployee() {
-    var query = '';
-    connection.query(query, function(err, res) {
+    db.query('SELECT * FROM ', function(err, res) {
         if (err) throw err;
-        console.log('Adding employee:');
         console.table('New Employee', res);
         start();
     })
@@ -138,9 +159,8 @@ function addEmployee() {
 
 function updateEmployee() {
     var query = '';
-    connection.query(query, function(err, res) {
+    db.query(query, function(err, res) {
         if (err) throw err;
-        console.log('Updating Employee:');
         console.table('Updating Employee');
         start();
     })

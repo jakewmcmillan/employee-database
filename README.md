@@ -6,7 +6,8 @@ This is an application that is designed for a manager to organize and update the
 
 ## Usage
 
-
+[https://www.youtube.com/watch?v=rVr0JaUkxTI](https://www.youtube.com/watch?v=rVr0JaUkxTI)
 
 ## Questions
+
 [https://github.com/jakewmcmillan](https://github.com/jakewmcmillan)
